@@ -10,13 +10,45 @@ function Gameboard () {
         }
     }
 
-    const playerMove = (row, column, player) => {
-        board[row][column] = player;
-        console.log(board)
-    }
+    const getBoard = () => board;
+
+    
+
+    // const playerMove = (row, column, player) => {
+    //     board[row].splice(column, 1, player)
+    //     console.log(board);
+    // }
+
+    return {}
 
 }
 
-Gameboard();
+function displayController (
+    playerOneName = "Player One",
+    playerTwoName = "Player Two"
+) {
+    const board = Gameboard();
 
-console.log(Gameboard(playerMove(1, 1, "X")))
+    const players = [
+        {
+            name: playerOneName,
+            token: "X"
+        },
+        {
+            name: playerTwoName,
+            token: "O"
+        }
+    ];
+
+    let activePlayer = players[0];
+
+    const switchPlayerTurn = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+
+
+}
+
+// Gameboard.playerMove(1, 1, "X")
+
+

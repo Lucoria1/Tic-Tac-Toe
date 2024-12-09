@@ -6,7 +6,7 @@ const Gameboard = (function () {
     for(let i = 0; i < rows; i++){
         board[i] = [];
         for(let j = 0; j < columns; j++){
-            board[i].push("")
+            board[i].push({})
         }
     }
 
@@ -42,22 +42,70 @@ const displayController = (function (
     const getActivePlayer = () => activePlayer
 
     const playerMove = (row, column) => {
-        if (board[row][column].value === "X" || "O") {
-            console.log(board[row][column].value)
-            console.log('Invalid Move')} else {
-                console.log(board[row][column].value)
-                board[row][column].value = activePlayer.token}
+        if (board[row][column] === "X" || board[row][column] === "O") {
+            return 'Invalid Move'
+            // console.log('Invalid Move')
+        } else {
+                board[row][column] = activePlayer.token}
     }
 
-    return {getGameboard, getActivePlayer, switchPlayerTurn, playerMove}
+    const checkWinConditions = () => {
+        //loop through outer array
+        //loop through inner array
+        //check if inner array is all one player token (loop players?)
+
+        board.forEach(rowCheck);
+
+        function rowCheck(value, index, array){
+            if(board[index].every((value) => {
+                return value === players[0].token
+            }) === true){console.log(`${players[0].name} Wins!`)} else if (board[index].every((value) => {
+                return value === players[1].token
+            }) === true){console.log(`${players[1].name} Wins!`)}
+        }
+
+        board.forEach(columnCheck);
+
+        function columnCheck (){
+            const columnArray = board.map((value, index, array) => {
+                return board[index].map((val, ind, arr) => {
+                    
+                })
+            })
+        }
+
+
+        
+    }
+    
+    const playRound = (row, column) => {
+        if(playerMove(row,column) === "Invalid Move"){
+            console.log("Invalid Move")
+            console.log(board[row][column].value)
+        } else {
+            playerMove(row, column);
+            getGameboard();
+            switchPlayerTurn();
+            checkWinConditions();
+            }
+    }
+
+
+    return {getGameboard, playRound}
 })();
 
 displayController.getGameboard()
-displayController.playerMove(1,1)
-displayController.getGameboard()
-displayController.switchPlayerTurn()
-displayController.playerMove(1,1)
-displayController.getGameboard()
+displayController.playRound(2,0)
+displayController.playRound(1,0)
+displayController.playRound(0,1)
+displayController.playRound(1,1)
+displayController.playRound(0,2)
+displayController.playRound(1,2)
+// displayController.playRound(1,0)
+// displayController.playRound(1,2)
+// displayController.playRound(2,0)
+
+
 
 
 

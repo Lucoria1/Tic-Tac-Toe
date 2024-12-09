@@ -44,15 +44,11 @@ const displayController = (function (
     const playerMove = (row, column) => {
         if (board[row][column] === "X" || board[row][column] === "O") {
             return 'Invalid Move'
-            // console.log('Invalid Move')
         } else {
                 board[row][column] = activePlayer.token}
     }
 
     const checkWinConditions = () => {
-        //loop through outer array
-        //loop through inner array
-        //check if inner array is all one player token (loop players?)
 
         const masterArray = board[0].concat(board[1],board[2])
 
@@ -122,7 +118,6 @@ const displayController = (function (
     const playRound = (row, column) => {
         if(playerMove(row,column) === "Invalid Move"){
             console.log("Invalid Move")
-            console.log(board[row][column].value)
         } else {
             playerMove(row, column);
             getGameboard();
@@ -136,15 +131,16 @@ const displayController = (function (
 })();
 
 displayController.getGameboard()
-displayController.playRound(0,0)
-displayController.playRound(2,0)
-displayController.playRound(0,1)
-displayController.playRound(1,1)
-displayController.playRound(2,2)
-displayController.playRound(0,2)
+// displayController.playRound(0,0)
+// displayController.playRound(2,0)
+// displayController.playRound(0,1)
+// displayController.playRound(1,1)
+// displayController.playRound(2,2)
+// displayController.playRound(0,2)
 // displayController.playRound(2,0)
 // displayController.playRound(2,1)
 // displayController.playRound(2,2)
+
 
 
 

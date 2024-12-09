@@ -1,4 +1,4 @@
-function Gameboard () {
+const Gameboard = (function () {
     const rows = 3;
     const columns = 3;
     const board = []
@@ -6,28 +6,21 @@ function Gameboard () {
     for(let i = 0; i < rows; i++){
         board[i] = [];
         for(let j = 0; j < columns; j++){
-            board[i].push({})
+            board[i].push("")
         }
     }
 
-    const getBoard = () => board;
+    return {board}
 
-    
+})();
 
-    // const playerMove = (row, column, player) => {
-    //     board[row].splice(column, 1, player)
-    //     console.log(board);
-    // }
-
-    return {}
-
-}
-
-function displayController (
+const displayController = (function (
     playerOneName = "Player One",
     playerTwoName = "Player Two"
 ) {
-    const board = Gameboard();
+    const board = Gameboard.board;
+
+    const getGameboard = () => console.table(board);
 
     const players = [
         {
@@ -43,12 +36,28 @@ function displayController (
     let activePlayer = players[0];
 
     const switchPlayerTurn = () => {
-        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+       activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
 
+    const getActivePlayer = () => activePlayer
 
-}
+    const playerMove = (row, column) => {
+        if (board[row][column].value === "X" || "O") {
+            console.log(board[row][column].value)
+            console.log('Invalid Move')} else {
+                console.log(board[row][column].value)
+                board[row][column].value = activePlayer.token}
+    }
 
-// Gameboard.playerMove(1, 1, "X")
+    return {getGameboard, getActivePlayer, switchPlayerTurn, playerMove}
+})();
+
+displayController.getGameboard()
+displayController.playerMove(1,1)
+displayController.getGameboard()
+displayController.switchPlayerTurn()
+displayController.playerMove(1,1)
+displayController.getGameboard()
+
 
 

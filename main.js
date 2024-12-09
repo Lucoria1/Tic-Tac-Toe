@@ -54,26 +54,67 @@ const displayController = (function (
         //loop through inner array
         //check if inner array is all one player token (loop players?)
 
+        const masterArray = board[0].concat(board[1],board[2])
+
         board.forEach(rowCheck);
 
         function rowCheck(value, index, array){
-            if(board[index].every((value) => {
+            if(array[index].every((value) => {
                 return value === players[0].token
-            }) === true){console.log(`${players[0].name} Wins!`)} else if (board[index].every((value) => {
+            }) === true){console.log(`${players[0].name} Wins!`)} else if (array[index].every((value) => {
                 return value === players[1].token
             }) === true){console.log(`${players[1].name} Wins!`)}
         }
 
-        board.forEach(columnCheck);
+        function columnCheck (value, index, array){           
+            const columns = 3;
+            const rows = 3;
+            const adjBoard = [];
 
-        function columnCheck (){
-            const columnArray = board.map((value, index, array) => {
-                return board[index].map((val, ind, arr) => {
-                    
-                })
-            })
+            let k = 0;
+
+            for(let i = 0; i < columns; i++){
+                adjBoard[i] = [];
+                for(let j = 0; j < rows; j++){
+                    adjBoard[i].push(masterArray[k])
+                    k+= 3;
+                }
+                k-= 8
+                
+            }
+
+            adjBoard.forEach(rowCheck);
+
         }
 
+        columnCheck(0, 0, board)
+
+        function diagCheck () {
+            const left = masterArray.filter((value, index, array) => {
+                if(index === 0 || index === 4 || index === 8){
+                    return value
+                }
+            })
+
+            const right = masterArray.filter((value, index, array) => {
+                if(index === 2 || index === 4 || index === 6){
+                    return value
+                }
+            })
+
+            function check(value, index, array){
+                if(array.every((value) => {
+                    return value === players[0].token
+                }) === true){console.log(`${players[0].name} Wins!`)} else if (array.every((value) => {
+                    return value === players[1].token
+                }) === true){console.log(`${players[1].name} Wins!`)}
+            }
+            
+            check(0,0, left);
+            check(0,0,right)
+        }
+
+        diagCheck();
 
         
     }
@@ -95,15 +136,15 @@ const displayController = (function (
 })();
 
 displayController.getGameboard()
+displayController.playRound(0,0)
 displayController.playRound(2,0)
-displayController.playRound(1,0)
 displayController.playRound(0,1)
 displayController.playRound(1,1)
+displayController.playRound(2,2)
 displayController.playRound(0,2)
-displayController.playRound(1,2)
-// displayController.playRound(1,0)
-// displayController.playRound(1,2)
 // displayController.playRound(2,0)
+// displayController.playRound(2,1)
+// displayController.playRound(2,2)
 
 
 

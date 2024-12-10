@@ -48,6 +48,11 @@ const displayController = (function (
                 board[row][column] = activePlayer.token}
     }
 
+    let win;
+    let tie;
+    let winningPlayer;
+
+
     const checkWinConditions = () => {
 
         const masterArray = board[0].concat(board[1],board[2])
@@ -57,9 +62,13 @@ const displayController = (function (
         function rowCheck(value, index, array){
             if(array[index].every((value) => {
                 return value === players[0].token
-            }) === true){console.log(`${players[0].name} Wins!`)} else if (array[index].every((value) => {
+            }) === true){winningPlayer = players[0].name
+                win = true
+            } else if (array[index].every((value) => {
                 return value === players[1].token
-            }) === true){console.log(`${players[1].name} Wins!`)}
+            }) === true){winningPlayer = players[1].name
+                win = true
+            }
         }
 
         function columnCheck (value, index, array){           
@@ -101,9 +110,13 @@ const displayController = (function (
             function check(value, index, array){
                 if(array.every((value) => {
                     return value === players[0].token
-                }) === true){console.log(`${players[0].name} Wins!`)} else if (array.every((value) => {
+                }) === true){winningPlayer = players[0].name
+                    win = true
+                } else if (array.every((value) => {
                     return value === players[1].token
-                }) === true){console.log(`${players[1].name} Wins!`)}
+                }) === true){winningPlayer = players[1].name
+                    win = true
+                }
             }
             
             check(0,0, left);
@@ -112,8 +125,34 @@ const displayController = (function (
 
         diagCheck();
 
+        function tieCheck () {
+            let isTie;
+
+            if(masterArray.every((value) => {
+                return value === "X" || value === "O"
+            })){isTie = true};
+
+            if(win !== true && isTie === true){
+                tie = true
+            }
+        }
+
+        tieCheck()
+
+        function getMessage (){
+            if(tie === true){
+                console.log(`No more moves! Its a Tie!`)
+            }
+            if(win === true){
+                console.log(`${winningPlayer} Wins!`)
+            }
+        }
+
+        getMessage();
         
     }
+
+
     
     const playRound = (row, column) => {
         if(playerMove(row,column) === "Invalid Move"){
@@ -127,20 +166,21 @@ const displayController = (function (
     }
 
 
-    return {getGameboard, playRound}
+    return {getGameboard, playRound, getActivePlayer}
 })();
 
-displayController.getGameboard()
+
+// displayController.getGameboard()
 // displayController.playRound(0,0)
-// displayController.playRound(2,0)
+// displayController.playRound(0,2)
 // displayController.playRound(0,1)
 // displayController.playRound(1,1)
-// displayController.playRound(2,2)
-// displayController.playRound(0,2)
-// displayController.playRound(2,0)
+// displayController.playRound(1,2)
+// displayController.playRound(1,0)
 // displayController.playRound(2,1)
 // displayController.playRound(2,2)
-
+// displayController.playRound(2,2)
+// displayController.playRound(2,0)
 
 
 

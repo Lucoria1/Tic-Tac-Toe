@@ -20,6 +20,7 @@ const displayController = (function (
 ) {
     const board = Gameboard.board;
 
+
     const getGameboard = () => console.table(board);
 
     const players = [
@@ -39,7 +40,7 @@ const displayController = (function (
        activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
 
-    const getActivePlayer = () => activePlayer
+    const getActivePlayer = activePlayer
 
     const playerMove = (row, column) => {
         if (board[row][column] === "X" || board[row][column] === "O") {
@@ -169,6 +170,21 @@ const displayController = (function (
     return {getGameboard, playRound, getActivePlayer}
 })();
 
+document.addEventListener("DOMContentLoaded", (event) => {
+
+    const moveBtns = document.querySelectorAll(".moveBtn");
+
+    moveBtns.forEach((element) => {
+        element.addEventListener("click", () => {
+            let id = element.id;
+            const myArray = id.split(" ");
+            console.log(myArray);
+            displayController.playRound(myArray[0], myArray[1])
+            // element.innerHTML = displayController.getActivePlayer.token;
+            console.log(displayController.getActivePlayer)
+        })
+    })
+})
 
 // displayController.getGameboard()
 // displayController.playRound(0,0)

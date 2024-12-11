@@ -36,11 +36,11 @@ const displayController = (function (
 
     let activePlayer = players[0];
 
+    const getActivePlayer = () => activePlayer
+
     const switchPlayerTurn = () => {
        activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
-
-    const getActivePlayer = activePlayer
 
     const playerMove = (row, column) => {
         if (board[row][column] === "X" || board[row][column] === "O") {
@@ -142,10 +142,10 @@ const displayController = (function (
 
         function getMessage (){
             if(tie === true){
-                console.log(`No more moves! Its a Tie!`)
+                alert(`No more moves! Its a Tie!`)
             }
             if(win === true){
-                console.log(`${winningPlayer} Wins!`)
+                alert(`${winningPlayer} Wins!`)
             }
         }
 
@@ -158,6 +158,8 @@ const displayController = (function (
     const playRound = (row, column) => {
         if(playerMove(row,column) === "Invalid Move"){
             console.log("Invalid Move")
+        } else if (win === true) {
+            alert(`Game Over! ${winningPlayer} Won!`)
         } else {
             playerMove(row, column);
             getGameboard();
@@ -166,8 +168,16 @@ const displayController = (function (
             }
     }
 
+    const checkGameOver = () => {
+        let gameOver = false
+        if (win === true || tie === true) {
+            gameOver = true
+        }
+        return gameOver;
+    }
 
-    return {getGameboard, playRound, getActivePlayer}
+
+    return {getGameboard, playRound, getActivePlayer, checkGameOver}
 })();
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -176,12 +186,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     moveBtns.forEach((element) => {
         element.addEventListener("click", () => {
+
             let id = element.id;
             const myArray = id.split(" ");
-            console.log(myArray);
-            displayController.playRound(myArray[0], myArray[1])
-            // element.innerHTML = displayController.getActivePlayer.token;
-            console.log(displayController.getActivePlayer)
+            if (displayController.checkGameOver() === false){
+            element.innerHTML = displayController.getActivePlayer().token;
+            displayController.playRound(myArray[0], myArray[1])}
         })
     })
 })

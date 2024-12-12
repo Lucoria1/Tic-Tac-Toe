@@ -1,3 +1,35 @@
+document.addEventListener("DOMContentLoaded", (event) => {
+
+    const playerNameInput = document.querySelector("#playerNames");
+
+    playerNameInput.addEventListener("keypress", (event) => {
+        if(event.keyCode === 13) {
+            event.preventDefault();
+        }
+    })
+
+    const inputMoves = (function () {
+    const moveBtns = document.querySelectorAll(".moveBtn");
+
+    moveBtns.forEach((element) => {
+        element.addEventListener("click", () => {
+
+            let id = element.id;
+            const myArray = id.split(" ");
+            if (displayController.checkGameOver() === false){
+            element.innerHTML = displayController.getActivePlayer().token;
+            displayController.playRound(myArray[0], myArray[1])}
+        })
+    })
+
+
+
+    })();
+})
+
+
+
+
 const Gameboard = (function () {
     const rows = 3;
     const columns = 3;
@@ -15,21 +47,25 @@ const Gameboard = (function () {
 })();
 
 const displayController = (function (
-    playerOneName = "Player One",
-    playerTwoName = "Player Two"
+    // playerOneName = playerOneInput.value,
+    // playerTwoName = playerTwoInput.value
 ) {
     const board = Gameboard.board;
 
+    const getGameboard = () => board;
 
-    const getGameboard = () => console.table(board);
+    const playerOneInput = document.getElementById('playerOne');
+    const playerTwoInput = document.getElementById('playerTwo');
+    console.log(playerOneInput)
+
 
     const players = [
         {
-            name: playerOneName,
+            name: playerOneInput,
             token: "X"
         },
         {
-            name: playerTwoName,
+            name: playerTwoInput,
             token: "O"
         }
     ];
@@ -179,35 +215,6 @@ const displayController = (function (
 
     return {getGameboard, playRound, getActivePlayer, checkGameOver}
 })();
-
-document.addEventListener("DOMContentLoaded", (event) => {
-
-    const moveBtns = document.querySelectorAll(".moveBtn");
-
-    moveBtns.forEach((element) => {
-        element.addEventListener("click", () => {
-
-            let id = element.id;
-            const myArray = id.split(" ");
-            if (displayController.checkGameOver() === false){
-            element.innerHTML = displayController.getActivePlayer().token;
-            displayController.playRound(myArray[0], myArray[1])}
-        })
-    })
-})
-
-// displayController.getGameboard()
-// displayController.playRound(0,0)
-// displayController.playRound(0,2)
-// displayController.playRound(0,1)
-// displayController.playRound(1,1)
-// displayController.playRound(1,2)
-// displayController.playRound(1,0)
-// displayController.playRound(2,1)
-// displayController.playRound(2,2)
-// displayController.playRound(2,2)
-// displayController.playRound(2,0)
-
 
 
 

@@ -5,14 +5,16 @@ const Gameboard = (function () {
     const columns = 3;
     const board = []
 
+    function createBoard (){
     for(let i = 0; i < rows; i++){
         board[i] = [];
         for(let j = 0; j < columns; j++){
             board[i].push({})
         }
-    }
+    }};
+    createBoard();
 
-    return {board}
+    return {board, createBoard}
 
 })();
 
@@ -57,16 +59,22 @@ const displayController = (function (
        activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
 
+    let validMove;
+
+    const validMoveCheck = (row, column) => {
+        if (board[row][column] === "X" || board[row][column] === "O"){
+            return validMove = false
+        } else {validMove = true}
+    }
+
     const playerMove = (row, column) => {
-        if (board[row][column] === "X" || board[row][column] === "O") {
-            return 'Invalid Move'
-        } else {
-                board[row][column] = activePlayer.token}
+        board[row][column] = activePlayer.token
     }
 
     let win;
     let tie;
     let winningPlayer;
+    
 
 
     const checkWinConditions = () => {
@@ -171,7 +179,8 @@ const displayController = (function (
 
     
     const playRound = (row, column) => {
-        if(playerMove(row,column) === "Invalid Move"){
+        validMoveCheck(row, column)
+        if(validMove === false){
             console.log("Invalid Move")
         } else if (win === true) {
             alert(`Game Over! ${winningPlayer} Won!`)
@@ -199,13 +208,33 @@ const displayController = (function (
             let id = element.id;
             const myArray = id.split(" ");
             if (checkGameOver() === false){
-            element.innerHTML = getActivePlayer().token;
-            playRound(myArray[0], myArray[1])}
+            let token = getActivePlayer().token;
+            playRound(myArray[0], myArray[1]);
+            if(validMove === true)
+            {element.innerHTML = token;}
+        }
         })
+    })
+
+    const newGameBtn = document.querySelector("#newGame")
+    newGameBtn.addEventListener("click", () => {
+        Gameboard.createBoard();
+        console.log(Gameboard.board)
+        moveBtns.forEach((element)=>{
+            element.innerHTML = ""
+        })
+        win = false;
+        tie = false;
+        winningPlayer = false;
+
+
     })
 
     return {getGameboard, playRound, getActivePlayer, checkGameOver}
 })();
+
+
+
 })
 
 
